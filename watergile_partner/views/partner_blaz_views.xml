@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_partner_blaz_form" model="ir.ui.view">
+        <field name="name">partner.blaz.form</field>
+        <field name="model">partner.blaz</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom du blaz..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="owner_partner_id" 
+                                   domain="[('type', '=', 'parent_company')]"
+                                   options="{'no_create': True}"/>
+                            <field name="force_logo_update"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    
+                        <group>
+                            <field name="authorized_partner_ids" 
+                                   widget="many2many_tags"
+                                   domain="[('parent_id', '=', owner_partner_id)]"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Partenaires associés">
+                            <field name="partner_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_partner_blaz_tree" model="ir.ui.view">
+        <field name="name">partner.blaz.tree</field>
+        <field name="model">partner.blaz</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="owner_partner_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_partner_blaz_search" model="ir.ui.view">
+        <field name="name">partner.blaz.search</field>
+        <field name="model">partner.blaz</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="owner_partner_id"/>
+                <filter string="Archivé" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_partner_blaz" model="ir.actions.act_window">
+        <field name="name">Blaz</field>
+        <field name="res_model">partner.blaz</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier blaz
+            </p>
+        </field>
+    </record>
+</odoo>

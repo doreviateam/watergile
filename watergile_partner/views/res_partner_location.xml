@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_location" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.location</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Masquer le champ state_id standard -->
+            <xpath expr="//field[@name='state_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//div[@class='o_address_format']" position="replace">
+                <div class="o_address_format">
+                    <!-- Voie -->
+                    <div class="mb-3">
+                        <field name="street" placeholder="Rue..." class="o_address_street w-100"/>
+                    </div>
+                    <div class="mb-3">
+                        <field name="street2" placeholder="Complément d'adresse..." class="o_address_street w-100"/>
+                    </div>
+                    
+                    <!-- CP, Ville, Pays sur une ligne -->
+                    <div class="d-flex mb-3">
+                        <field name="zip" placeholder="CP" style="min-width: 50px;" class="me-2"/>
+                        <field name="city" placeholder="Ville" style="min-width: 200px;" class="flex-grow-1 mx-2"/>
+                        <field name="country_id" placeholder="Pays" options="{'no_create': True, 'no_open': True}" class="ms-2"/>
+                    </div>
+
+                    <!-- Département et Région sur une ligne -->
+                    <div class="row">
+                        <div class="col-6 pe-2">
+                            <field name="department_id" placeholder="Département" options="{'no_create': True, 'no_open': True}" readonly="1"/>
+                        </div>
+                        <div class="col-6 ps-2">
+                            <field name="state_id" placeholder="Région" readonly="1"/>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
