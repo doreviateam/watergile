@@ -102,18 +102,35 @@ class ResPartner(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        """Override pour définir le type par défaut à 'delivery' pour les nouveaux contacts"""
         for vals in vals_list:
-            if vals.get('parent_id') and vals.get('is_company'):
-                vals['type'] = vals.get('type', 'delivery')
+            if vals.get('parent_id') and not vals.get('type'):
+                vals['type'] = 'delivery'
         return super().create(vals_list)
 
     @api.onchange('parent_id')
-    def _onchange_parent_id(self):
+    def onchange_parent_id(self):
         """Override pour empêcher la copie automatique de l'adresse du parent pour les sociétés"""
         if not self.is_company:
-            # Comportement standard pour les contacts
-            return super()._onchange_parent_id()
+            # Pour les contacts, on garde le comportement standard
+            result = super().onchange_parent_id()
+            # On définit le type par défaut à 'delivery' pour les nouveaux contacts
+            if not self.type and self.parent_id:
+                self.type = 'delivery'
+            return result
         # Pour les sociétés, on ne fait rien
+        return {}
+
+    @api.onchange('type')
+    def onchange_type(self):
+        """Empêcher la copie automatique de l'adresse pour les sociétés"""
+        if self.is_company:
+            return {}
+        # Pour les contacts, on copie l'adresse du parent si nécessaire
+        if self.parent_id and self.type in ['invoice', 'delivery', 'other']:
+            addr = self.parent_id.address_get([self.type])
+            if addr[self.type]:
+                self.update(self._sync_parent_address(addr[self.type]))
         return {}
 
     def write(self, vals):
@@ -132,5 +149,16 @@ class ResPartner(models.Model):
             return result
             
         return super().write(vals)
+
+    def _sync_parent_address(self, parent):
+        """Méthode utilitaire pour synchroniser l'adresse avec le parent"""
+        return {
+            'street': parent.street,
+            'street2': parent.street2,
+            'city': parent.city,
+            'zip': parent.zip,
+            'state_id': parent.state_id.id,
+            'country_id': parent.country_id.id,
+        }
 
             
