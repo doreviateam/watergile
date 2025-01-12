@@ -20,7 +20,7 @@
         action="action_partner_blaz"
         parent="menu_configuration"
         sequence="10"/>
-    
+
     <!-- Menu Contacts dans Watergile -->
     <menuitem id="menu_blaz_contacts"
         name="Contacts"

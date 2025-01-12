@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Form View -->
+    <!-- Vue formulaire -->
     <record id="view_partner_blaz_form" model="ir.ui.view">
         <field name="name">partner.blaz.form</field>
         <field name="model">partner.blaz</field>
@@ -9,28 +9,32 @@
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
-                        <h1><field name="name" placeholder="Nom du blaz..."/></h1>
+                        <h1>
+                            <field name="name" placeholder="Nom du Blaz..."/>
+                        </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="owner_partner_id" 
-                                   domain="[('type', '=', 'parent_company')]"
-                                   options="{'no_create': True}"/>
+                            <field name="owner_partner_id"/>
+                            <field name="active"/>
                             <field name="force_logo_update"/>
                         </group>
                         <group>
-                            <field name="active"/>
-                        </group>
-                    
-                        <group>
-                            <field name="authorized_partner_ids" 
-                                   widget="many2many_tags"
-                                   domain="[('parent_id', '=', owner_partner_id)]"/>
+                            <field name="image_128" widget="image"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Partenaires associés">
-                            <field name="partner_ids" readonly="1"/>
+                        <page string="Contacts autorisés" name="authorized_contacts">
+                            <field name="authorized_partner_ids"/>
+                        </page>
+                        <page string="Contacts utilisant ce Blaz" name="using_contacts">
+                            <field name="partner_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -38,20 +42,21 @@
         </field>
     </record>
 
-    <!-- Tree View -->
+    <!-- Vue liste -->
     <record id="view_partner_blaz_tree" model="ir.ui.view">
         <field name="name">partner.blaz.tree</field>
         <field name="model">partner.blaz</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="image_128" widget="image"/>
                 <field name="name"/>
                 <field name="owner_partner_id"/>
-                <field name="active" widget="boolean_toggle"/>
+                <field name="active"/>
             </tree>
         </field>
     </record>
 
-    <!-- Search View -->
+    <!-- Vue recherche -->
     <record id="view_partner_blaz_search" model="ir.ui.view">
         <field name="name">partner.blaz.search</field>
         <field name="model">partner.blaz</field>
@@ -59,7 +64,8 @@
             <search>
                 <field name="name"/>
                 <field name="owner_partner_id"/>
-                <filter string="Archivé" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Actifs" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archivés" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
@@ -69,10 +75,6 @@
         <field name="name">Blaz</field>
         <field name="res_model">partner.blaz</field>
         <field name="view_mode">tree,form</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Créer votre premier blaz
-            </p>
-        </field>
+        <field name="context">{'search_default_active': 1}</field>
     </record>
 </odoo>

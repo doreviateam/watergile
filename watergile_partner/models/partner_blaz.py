@@ -66,12 +66,12 @@ class PartnerBlaz(models.Model):
     @api.constrains('owner_partner_id')
     def _check_owner_type(self):
         for record in self:
-            if record.owner_partner_id.type != 'parent_company':
-                raise ValidationError(_("Le propriétaire du blaz doit être une maison mère"))
+            if record.owner_partner_id and not record.owner_partner_id.is_company:
+                raise ValidationError(_("Le propriétaire du blaz doit être une société"))
 
-        @api.constrains('partner_ids', 'owner_partner_id')
-        def _check_partners_hierarchy(self):
-            for record in self:
-                for partner in record.partner_ids:
-                    if partner.parent_id != record.owner_partner_id:
-                        raise ValidationError(_("Les partenaires doivent être rattachés à la maison mère propriétaire du blaz"))  # Ajout de la parenthèse manquante ici
+    @api.constrains('partner_ids', 'owner_partner_id')
+    def _check_partners_hierarchy(self):
+        for record in self:
+            for partner in record.partner_ids:
+                if partner.parent_id and partner.parent_id != record.owner_partner_id:
+                    raise ValidationError(_("Les partenaires doivent être rattachés à la maison mère propriétaire du blaz"))
