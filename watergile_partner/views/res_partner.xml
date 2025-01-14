@@ -29,13 +29,6 @@
             <field name="country_id" position="attributes">
                 <attribute name="readonly">parent_id and not is_company</attribute>
             </field>
-
-            <!-- Ajout de la page Organisation entre Contacts & Adresses et Ventes & Achats -->
-            <xpath expr="//page[@name='sales_purchases']" position="before">
-                <page name="organization" string="Organisation">
-                    <!-- Pour l'instant la page reste vide -->
-                </page>
-            </xpath>
         </field>
     </record>
 

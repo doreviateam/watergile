@@ -21,8 +21,9 @@
         parent="menu_configuration"
         sequence="10"/>
 
+
     <!-- Menu Contacts dans Watergile -->
-    <menuitem id="menu_blaz_contacts"
+    <menuitem id="menu_contacts"
         name="Contacts"
         action="contacts.action_contacts"
         parent="menu_watergile_root"

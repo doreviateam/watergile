@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo noupdate="0">
     <!-- Création du contact David -->
-    <record id="partner_david" model="res.partner">
+    <record id="partner_david" model="res.partner" forcecreate="1">
         <field name="name">David Baron</field>
         <field name="email">david@doreviateam.com</field>
         <field name="company_type">person</field>
@@ -9,7 +9,7 @@
     </record>
 
     <!-- Création de l'utilisateur David -->
-    <record id="user_david" model="res.users">
+    <record id="user_david" model="res.users" forcecreate="1">
         <field name="partner_id" ref="partner_david"/>
         <field name="login">david</field>
         <field name="password">test123</field>
@@ -25,7 +25,7 @@
     </record>
 
     <!-- Création de l'employé David -->
-    <record id="employee_david" model="hr.employee">
+    <record id="employee_david" model="hr.employee" forcecreate="1">
         <field name="name">David Baron</field>
         <field name="work_email">david@doreviateam.com</field>
         <field name="user_id" ref="user_david"/>

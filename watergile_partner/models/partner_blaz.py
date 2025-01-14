@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 
 class PartnerBlaz(models.Model):
     _name = 'partner.blaz'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Partner Blaz'
     
     name = fields.Char(string='Nom', required=True)
@@ -33,10 +34,10 @@ class PartnerBlaz(models.Model):
     
     owner_partner_id = fields.Many2one(
         'res.partner', 
-        string='Propriétaire du blaz', 
+        string='Propriétaire', 
         required=True,
-        domain="[('type', '=', 'parent_company')]",
-        help='Maison mère propriétaire de ce blaz'
+        domain="[]",
+        help='Propriétaire de ce blaz'
     )
     authorized_partner_ids = fields.Many2many(
         'res.partner', 

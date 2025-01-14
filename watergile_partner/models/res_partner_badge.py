@@ -69,8 +69,8 @@ class ResPartner(models.Model):
                 record.company_badge_display = 'Agence'
                 record.badge_color = 'info'  # Bleu clair
 
-            # Antenne : parent type 'headquarters', type 'agency'
-            elif record.parent_id and record.parent_id.hierarchy_relation == 'headquarters' and record.hierarchy_relation == 'agency':
+            # Antenne : parent type 'headquarters', type 'headquarters'
+            elif record.parent_id and record.parent_id.hierarchy_relation == 'headquarters' and record.hierarchy_relation == 'headquarters':
                 record.company_badge_display = 'Antenne'
                 record.badge_color = 'warning'  # C'est un siège qui est pilote par un autre siège
 

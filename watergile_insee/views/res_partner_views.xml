@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_insee" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.insee</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <page name="internal_notes" position="before">
+                <page string="Organisation" name="organisation" invisible="not is_company">
+                    <div class="alert alert-info" role="alert" invisible="not siret">
+                        Dernière synchronisation INSEE : <field name="last_insee_sync" readonly="1"/>
+                    </div>
+                    <group>
+                        <group string="Identifiants légaux">
+                            <field name="siret" placeholder="Saisissez le SIRET pour synchroniser automatiquement"/>
+                            <field name="siren" readonly="1"/>
+                            <field name="vat"/>
+                        </group>
+                        <group string="Informations commerciales">
+                            <field name="enseigne" readonly="1"/>
+                            <field name="activite_principale" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Données logistiques">
+                            <field name="street" readonly="1"/>
+                            <field name="street2" readonly="1"/>
+                            <field name="zip" readonly="1"/>
+                            <field name="city" readonly="1"/>
+                            <field name="country_id" readonly="1"/>
+                            <field name="latitude" readonly="1"/>
+                            <field name="longitude" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

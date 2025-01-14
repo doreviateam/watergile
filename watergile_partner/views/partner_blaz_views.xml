@@ -7,25 +7,35 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                        </button>
+                    </div>
                     <field name="image_1920" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
                         <h1>
-                            <field name="name" placeholder="Nom du Blaz..."/>
+                            <field name="name" placeholder="Nom du Blaz..." required="1"/>
                         </h1>
+                        <h2>
+                            <field name="owner_partner_id" placeholder="Propriétaire..." required="1"/>
+                        </h2>
                     </div>
                     <group>
-                        <group>
-                            <field name="owner_partner_id"/>
-                            <field name="active"/>
+                        <group name="main_info">
                             <field name="force_logo_update"/>
-                        </group>
-                        <group>
-                            <field name="image_128" widget="image"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Contacts autorisés" name="authorized_contacts">
-                            <field name="authorized_partner_ids"/>
+                            <field name="authorized_partner_ids" context="{'default_type': 'contact'}">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Contacts utilisant ce Blaz" name="using_contacts">
                             <field name="partner_ids" readonly="1">
@@ -38,6 +48,10 @@
                         </page>
                     </notebook>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
