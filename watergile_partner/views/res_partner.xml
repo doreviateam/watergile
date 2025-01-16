@@ -39,6 +39,7 @@
                        invisible="not is_company"
                        help="Indique si ce partenaire possède déjà une adresse de livraison"/>
             </field>
+
         </field>
     </record>
 
