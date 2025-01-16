@@ -48,11 +48,8 @@ class ResPartner(models.Model):
     
     
     # Champs de base pour la localisation
-    department_id = fields.Many2one(
-        'res.country.department',
-        string='Département',
-        domain="[('country_id.code', '=', 'FR')]"
-    )
+    department_id = fields.Many2one(comodel_name='res.country.department', string='Département', 
+                                    domain="[('country_id.code', '=', 'FR')]")
 
     state_id = fields.Many2one(
         'res.country.state',
@@ -62,6 +59,8 @@ class ResPartner(models.Model):
         readonly=True
     )
 
+
+    
 
 
     @api.model
@@ -97,16 +96,6 @@ class ResPartner(models.Model):
             
             if department:
                 self.department_id = department.id
-
-    
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        """Override pour définir le type par défaut à 'delivery' pour les nouveaux contacts"""
-        for vals in vals_list:
-            if vals.get('parent_id') and not vals.get('type'):
-                vals['type'] = 'delivery'
-        return super().create(vals_list)
 
     @api.onchange('parent_id')
     def onchange_parent_id(self):
@@ -153,6 +142,8 @@ class ResPartner(models.Model):
     def _sync_parent_address(self, parent):
         """Méthode utilitaire pour synchroniser l'adresse avec le parent"""
         return {
+            'name': parent.name,
+            'type': 'delivery',
             'street': parent.street,
             'street2': parent.street2,
             'city': parent.city,

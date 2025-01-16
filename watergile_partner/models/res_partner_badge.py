@@ -48,11 +48,23 @@ class ResPartner(models.Model):
     @api.depends('parent_id', 'child_ids', 'hierarchy_relation', 'parent_id.hierarchy_relation')
     def _compute_company_badge_display(self):
         """Permet de définir les badges en fonction de la relation hierarchique"""
+
+        # Si ce n'est pas une société, on ne peut pas avoir de badge
         for record in self:
-            # Maison mère : pas de parent, avec enfants, type 'other'
+            if not record.is_company:
+                record.company_badge_display = False
+                record.badge_color = False
+                continue
+            
+            # Maison mère : pas de parent, avec enfants dont au moins un est une société, type 'other'
             if not record.parent_id and record.child_ids and record.hierarchy_relation == 'other':
-                record.company_badge_display = 'Maison mère'
-                record.badge_color = 'primary'  # Bleu
+                # Vérifier si au moins un enfant est une société
+                if any(child.is_company for child in record.child_ids):
+                    record.company_badge_display = 'Maison mère'
+                    record.badge_color = 'primary'  # Bleu
+                else:
+                    record.company_badge_display = False
+                    record.badge_color = False
 
             # Filiale : parent type 'other', type 'other'
             elif record.parent_id and record.parent_id.hierarchy_relation == 'other' and record.hierarchy_relation == 'other':
@@ -65,7 +77,7 @@ class ResPartner(models.Model):
                 record.badge_color = 'warning'  # Orange
 
             # Agence : parent type 'other', type 'agency'
-            elif record.parent_id and record.parent_id.hierarchy_relation == 'other' and record.hierarchy_relation == 'agency':
+            elif record.parent_id and (record.parent_id.hierarchy_relation == 'other' or record.parent_id.hierarchy_relation == 'headquarters') and record.hierarchy_relation == 'agency':
                 record.company_badge_display = 'Agence'
                 record.badge_color = 'info'  # Bleu clair
 
@@ -74,6 +86,7 @@ class ResPartner(models.Model):
                 record.company_badge_display = 'Antenne'
                 record.badge_color = 'warning'  # C'est un siège qui est pilote par un autre siège
 
+            # Si ce n'est pas une société, on ne peut pas avoir de badge
             else:
                 record.company_badge_display = False
                 record.badge_color = False

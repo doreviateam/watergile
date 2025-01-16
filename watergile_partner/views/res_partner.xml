@@ -21,13 +21,23 @@
                 <attribute name="readonly">parent_id and not is_company</attribute>
             </field>
             <field name="state_id" position="attributes">
-                <attribute name="readonly">parent_id and not is_company</attribute>
+                <attribute name="readonly">True</attribute>
+                <attribute name="invisible">country_id.code != 'FR'</attribute>
+                <attribute name="force_save">True</attribute>
             </field>
             <field name="zip" position="attributes">
                 <attribute name="readonly">parent_id and not is_company</attribute>
             </field>
             <field name="country_id" position="attributes">
                 <attribute name="readonly">parent_id and not is_company</attribute>
+            </field>
+
+            <!-- Ajout du champ has_delivery_address -->
+            <field name="country_id" position="after">
+                <field name="has_delivery_address" 
+                       readonly="1" 
+                       invisible="not is_company"
+                       help="Indique si ce partenaire possède déjà une adresse de livraison"/>
             </field>
         </field>
     </record>

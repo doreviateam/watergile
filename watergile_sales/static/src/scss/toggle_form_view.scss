@@ -1,0 +1,48 @@
+.o_form_view {
+
+    // Style du bouton
+    .oe_stat_button {
+        &[name="toggle_fullscreen"] {
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+
+            .o_stat_text {
+                font-weight: 500;
+                color: #666;
+            }
+        }
+    }
+
+    // Style en mode plein écran (uniquement quand la classe est présente)
+    &.o_form_full_width {
+        .o_form_sheet_bg {
+            max-width: 100% !important;
+            padding: 0 16px;
+            transition: max-width 0.3s ease-in-out;
+
+            .o_form_sheet {
+                max-width: 100% !important;
+                margin: 0;
+                transition: max-width 0.3s ease-in-out;
+            }
+        }
+
+        .o_form_chatter {
+            display: none;
+            transition: display 0.3s ease-in-out;
+        }
+    }
+}
+
+// Animation pour le changement d'icône
+.fa-expand,
+.fa-compress {
+    transition: transform 0.3s ease;
+}
+
+.fa-compress {
+    transform: rotate(180deg);
+}

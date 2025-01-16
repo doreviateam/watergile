@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_prev_delivery_david,prev.delivery.order.david,model_prev_delivery_order,watergile_sales.group_watergile_sales_david,1,1,1,1
+access_prev_delivery_line_david,prev.delivery.order.line.david,model_prev_delivery_order_line,watergile_sales.group_watergile_sales_david,1,1,1,1
+
+access_prev_delivery_user,prev.delivery.order.user,model_prev_delivery_order,sales_team.group_sale_salesman,1,1,1,0
+access_prev_delivery_manager,prev.delivery.order.manager,model_prev_delivery_order,sales_team.group_sale_manager,1,1,1,1
+
+access_prev_delivery_line_user,prev.delivery.order.line.user,model_prev_delivery_order_line,sales_team.group_sale_salesman,1,1,1,0
+access_prev_delivery_line_manager,prev.delivery.order.line.manager,model_prev_delivery_order_line,sales_team.group_sale_manager,1,1,1,1

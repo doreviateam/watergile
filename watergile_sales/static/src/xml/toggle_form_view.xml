@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="watergile_sales.ToggleFullscreenButton">
+        <button class="oe_stat_button" t-on-click="toggleFullscreen">
+            <i class="fa fa-expand" role="img" aria-label="Toggle Fullscreen"/>
+            <span class="o_stat_text">Vue<br/>étendue</span>
+        </button>
+    </t>
+</templates>
